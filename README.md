@@ -9,6 +9,7 @@ These adders are particularly useful in high-speed computing applications where 
 ***Parallel Prefix Adder:*** Uses a tree-like structure to compute carries in parallel, reducing the time complexity of carry propagation.
 
 Prefix Operation:
+    Generate (G):[G = A & B] Indicates if a carry will be generated at a particular stage. 
+    Propagate (P):[P = A ^ B] Indicates if a carry will be propagated through to the next stage.
 
-    Generate (G): Indicates if a carry will be generated at a particular stage.
-    Propagate (P): Indicates if a carry will be propagated through to the next stage.
+    
