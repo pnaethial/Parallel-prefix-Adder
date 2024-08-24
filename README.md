@@ -1,7 +1,3 @@
 <span style="font-size:1.5em;">**Design and Characterization of Parallel Prefix Adders Using FPGA board**</span>
-1)To resolve the delay of carry lookahead adders, parallel-prefix adders can be employed.
-
-2)They first compute G and P for pairs of columns, then for blocks of 4, then for blocks of 8,
-then 16, and so forth until the generate signal for every column is known.
-
-3)log2N stages
+<hr><hr><hr><hr>
+Parallel prefix adders are high-performance circuits used for binary addition. They use a tree-like structure to propagate carries in parallel, which significantly speeds up the addition process compared to simpler ripple-carry adders
