@@ -3,7 +3,8 @@
 ---
 
 Parallel prefix adders are high-performance circuits used for binary addition. They use a tree-like structure to propagate carries in parallel, which significantly speeds up the addition process compared to simpler ripple-carry adders. These adders are particularly useful in high-speed computing applications where rapid addition operations are crucial.
-![image](/home/neha-patil/Pictures/Screenshots)
+![Screenshot from 2024-08-24 22-18-31](https://github.com/user-attachments/assets/e9d96e39-9743-41a9-8a77-6da2bf045de1)
+
 
 Parallel Prefix Adders are designed to improve the speed of binary addition by efficiently computing carry bits in parallel rather than sequentially. This approach drastically reduces the time complexity associated with carry propagation, which is a major bottleneck in simpler adder designs like ripple-carry adders.
 
