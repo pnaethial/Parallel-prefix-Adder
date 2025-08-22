@@ -1,30 +1,44 @@
-module prefixadder (
-    input logic [3:0] A, B,
-    output logic [4:0] Sum
+module parallel_prefix_adder #(parameter N = 16)(
+    input  logic [N-1:0] A, B,
+    input  logic         Cin,
+    output logic [N-1:0] Sum,
+    output logic         Cout
 );
-    logic [3:0] P[0:3], G[0:3], C[0:4];
 
-    // Stage 1
-    assign G[0] = A[0] & B[0];
-    assign P[0] = A[0] ^ B[0];
-    assign C[1] = G[0] | (P[0] & 1'b0);
+    logic [N-1:0] P, G;
+    logic [N-1:0] GP_G, GP_P;
+    logic [N:0]   carry;
 
-    // Stage 2
-    assign G[1] = A[1] & B[1];
-    assign P[1] = A[1] ^ B[1];
-    assign C[2] = G[1] | (P[1] & C[1]);
+    // Step 1: bitwise propagate and generate
+    always_comb begin
+        for (int i = 0; i < N; i++) begin
+            P[i] = A[i] ^ B[i];
+            G[i] = A[i] & B[i];
+        end
+    end
 
-    // Stage 3
-    assign G[2] = A[2] & B[2];
-    assign P[2] = A[2] ^ B[2];
-    assign C[3] = G[2] | (P[2] & C[2]);
+    always_comb begin
+        GP_G = G;
+        GP_P = P;
+        for (int shift = 1; shift < N; shift <<= 1) begin
+            for (int i = N-1; i >= shift; i--) begin
+                GP_G[i] = GP_G[i] | (GP_P[i] & GP_G[i-shift]);
+                GP_P[i] = GP_P[i] & GP_P[i-shift];
+            end
+        end
+    end
 
-    // Stage 4
-    assign G[3] = A[3] & B[3];
-    assign P[3] = A[3] ^ B[3];
-    assign C[4] = G[3] | (P[3] & C[3]);
-
-    // Final sum expression
-    assign Sum = {C[4], C[3], C[2], C[1], C[0]};
-
+    always_comb begin
+        carry[0] = Cin;
+        for (int i = 0; i < N; i++) begin
+            carry[i+1] = GP_G[i] | (GP_P[i] & Cin);
+        end
+    end
+    
+    always_comb begin
+        for (int i = 0; i < N; i++) begin
+            Sum[i] = P[i] ^ carry[i];
+        end
+        Cout = carry[N];
+    end
 endmodule
